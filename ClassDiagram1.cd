@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="Pim_8.Cliente">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAIAAAAAAAAgAAAAIAAAAAAAAAAAAIAQAAAAAgA=</HashCode>
+      <FileName>Cliente.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="endereco" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="possui" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Pim_8.Carrinho">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAQAAAAAAAAAAAAAAAAAAgAAAAAAgCAAAEAAAAgA=</HashCode>
+      <FileName>Carrinho.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="cliente" />
+      <Field Name="status" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="contem" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Pim_8.Vendedor">
+    <Position X="4" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAQIAABAAAAAAAQAAAQAAAAAiA=</HashCode>
+      <FileName>Vendedor.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="endereco" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Pim_8.Produto">
+    <Position X="7" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAQAAIAAAEAAAAAQAAAAAAAAAIgA=</HashCode>
+      <FileName>Produto.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="vendedor" />
+      <Field Name="categoria" />
+      <Field Name="status" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Pim_8.Categoria">
+    <Position X="7" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Categoria.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pim_8.Endereco">
+    <Position X="0.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAABAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Endereco.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pim_8.StatusCarrinho">
+    <Position X="9.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>StatusPedido.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pim_8.StatusProduto">
+    <Position X="9.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>StatusProduto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

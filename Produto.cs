@@ -1,46 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Pim_8
+﻿namespace Pim_8
 {
     public class Produto
     {
-        private Vendedor vendedor;
-        private Categoria categoria;
-        private StatusProduto status;
+        public int Id { get; set; }
+        public int VendedorId { get; set; }
+        public int CategoriaId { get; set; }
+        public string Descricao { get; set; }
+        public decimal Preco { get; set; }
+        public string Imagem { get; set; }
+        public bool Status { get; set; }
 
-        public int id
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public string descricao
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public decimal preco
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public string imagem
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        // Adicionando propriedades de navegação para o Vendedor e Categoria
+        public Vendedor Vendedor { get; set; }
+        public Categoria Categoria { get; set; }
     }
 }

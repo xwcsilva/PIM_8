@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Pim_8
+﻿namespace Pim_8
 {
     public class Vendedor
     {

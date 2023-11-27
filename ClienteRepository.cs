@@ -2,139 +2,136 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
-public class ClienteRepository : IRepository<Cliente>
+namespace Pim_8
 {
-    private string connectionString;
-
-    public ClienteRepository(string connectionString)
+    public class ClienteRepository : IRepository<Cliente>
     {
-        this.connectionString = connectionString;
-    }
+        private readonly string connectionString;
 
-    public void Adicionar(Cliente cliente)
-    {
-        using (SqlConnection connection = new SqlConnection(connectionString))
+        public ClienteRepository(string connectionString)
         {
-            connection.Open();
-
-            string query = "INSERT INTO cliente (nome, cpf, email, senha) " +
-                           "VALUES (@Nome, @CPF, @Email, @Senha)";
-
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@Nome", cliente.Nome);
-                command.Parameters.AddWithValue("@CPF", cliente.CPF);
-                command.Parameters.AddWithValue("@Email", cliente.Email);
-                command.Parameters.AddWithValue("@Senha", cliente.Senha);
-
-                command.ExecuteNonQuery();
-            }
+            this.connectionString = connectionString;
         }
-    }
 
-    public void Atualizar(Cliente cliente)
-    {
-        using (SqlConnection connection = new SqlConnection(connectionString))
+        public void Adicionar(Cliente entidade)
         {
-            connection.Open();
-
-            string query = "UPDATE cliente SET nome = @Nome, cpf = @CPF, " +
-                           "email = @Email, senha = @Senha " +
-                           "WHERE Id = @Id";
-
-            using (SqlCommand command = new SqlCommand(query, connection))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                command.Parameters.AddWithValue("@Id", cliente.Id);
-                command.Parameters.AddWithValue("@Nome", cliente.Nome);
-                command.Parameters.AddWithValue("@CPF", cliente.CPF);
-                command.Parameters.AddWithValue("@Email", cliente.Email);
-                command.Parameters.AddWithValue("@Senha", cliente.Senha);
+                connection.Open();
 
-                command.ExecuteNonQuery();
-            }
-        }
-    }
+                string query = "INSERT INTO Cliente (Nome, Cpf, Email, Senha) VALUES (@Nome, @Cpf, @Email, @Senha); SELECT SCOPE_IDENTITY();";
 
-    public void Excluir(Cliente cliente)
-    {
-        using (SqlConnection connection = new SqlConnection(connectionString))
-        {
-            connection.Open();
-
-            string query = "DELETE FROM cliente WHERE Id = @Id";
-
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@Id", cliente.Id);
-
-                command.ExecuteNonQuery();
-            }
-        }
-    }
-
-    public Cliente ObterPorId(int id)
-    {
-        using (SqlConnection connection = new SqlConnection(connectionString))
-        {
-            connection.Open();
-
-            string query = "SELECT * FROM cliente WHERE Id = @Id";
-
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@Id", id);
-
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    if (reader.Read())
-                    {
-                        return new Cliente
-                        {
-                            Id = Convert.ToInt32(reader["Id"]),
-                            Nome = reader["nome"].ToString(),
-                            CPF = Convert.ToInt64(reader["cpf"]),
-                            Email = reader["email"].ToString(),
-                            Senha = reader["senha"].ToString(),
-                        };
-                    }
-                }
-            }
+                    command.Parameters.AddWithValue("@Nome", entidade.Nome);
+                    command.Parameters.AddWithValue("@Cpf", entidade.CPF);
+                    command.Parameters.AddWithValue("@Email", entidade.Email);
+                    command.Parameters.AddWithValue("@Senha", entidade.Senha);
 
-            return null;
-        }
-    }
-
-    public List<Cliente> ObterTodos()
-    {
-        List<Cliente> clientes = new List<Cliente>();
-
-        using (SqlConnection connection = new SqlConnection(connectionString))
-        {
-            connection.Open();
-
-            string query = "SELECT * FROM cliente";
-
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        Cliente cliente = new Cliente
-                        {
-                            Id = Convert.ToInt32(reader["Id"]),
-                            Nome = reader["nome"].ToString(),
-                            CPF = Convert.ToInt64(reader["cpf"]),
-                            Email = reader["email"].ToString(),
-                            Senha = reader["senha"].ToString(),
-                        };
-
-                        clientes.Add(cliente);
-                    }
+                    entidade.Id = Convert.ToInt32(command.ExecuteScalar());
                 }
             }
         }
 
-        return clientes;
+        public void Atualizar(Cliente entidade)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = "UPDATE Cliente SET Nome = @Nome, Cpf = @Cpf, Email = @Email, Senha = @Senha WHERE Id = @ClienteId;";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Nome", entidade.Nome);
+                    command.Parameters.AddWithValue("@Cpf", entidade.CPF);
+                    command.Parameters.AddWithValue("@Email", entidade.Email);
+                    command.Parameters.AddWithValue("@Senha", entidade.Senha);
+                    command.Parameters.AddWithValue("@ClienteId", entidade.Id);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void Excluir(Cliente entidade)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = "DELETE FROM Cliente WHERE Id = @ClienteId;";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ClienteId", entidade.Id);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public Cliente ObterPorId(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = "SELECT * FROM Cliente WHERE Id = @ClienteId;";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ClienteId", id);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return MapToCliente(reader);
+                        }
+                    }
+                }
+
+                return null;
+            }
+        }
+
+        public List<Cliente> ObterTodos()
+        {
+            List<Cliente> clientes = new List<Cliente>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = "SELECT * FROM Cliente;";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Cliente cliente = MapToCliente(reader);
+                            clientes.Add(cliente);
+                        }
+                    }
+                }
+            }
+
+            return clientes;
+        }
+
+        private Cliente MapToCliente(SqlDataReader reader)
+        {
+            return new Cliente
+            {
+                Id = (int)reader["Id"],
+                Nome = reader["Nome"].ToString(),
+                CPF = (long)(reader["Cpf"] != DBNull.Value ? (long?)reader["Cpf"] : null),
+                Email = reader["Email"].ToString(),
+                Senha = reader["Senha"].ToString()
+                // Mapeie outras propriedades conforme necessário
+            };
+        }
     }
 }

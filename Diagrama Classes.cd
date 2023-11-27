@@ -1,67 +1,107 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
-  <Class Name="ClienteRepository">
-    <Position X="10.75" Y="0.5" Width="1.75" />
+  <Class Name="Pim_8.Endereco">
+    <Position X="0.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAQAAAAAAAAgEAABAAAAAAAAAAAAAAAAgAIAAAAA=</HashCode>
-      <FileName>ClienteRepository.cs</FileName>
+      <HashCode>AAACAAAAAAABAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Endereco.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.1" />
   </Class>
-  <Class Name="CarrinhoRepository">
-    <Position X="12.75" Y="0.5" Width="1.75" />
+  <Class Name="Pim_8.Vendedor">
+    <Position X="3.5" Y="7.5" Width="1.5" />
+    <AssociationLine Name="Produtos" Type="Pim_8.Produto">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.143" Y="1.402" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAQAAAAAAAAgEAABAAAAAAAAAAAAAAAAgAIAAAAA=</HashCode>
-      <FileName>CarrinhoRepository.cs</FileName>
+      <HashCode>AAAKAAAAACAAAAAAAAEAAAAAECAIAAAAAAAAEAAAEAA=</HashCode>
+      <FileName>Vendedor.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <ShowAsAssociation>
+      <Property Name="Endereco" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Produtos" />
+    </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="ProdutoRepository">
-    <Position X="12.75" Y="3.5" Width="1.75" />
+  <Class Name="Pim_8.Categoria">
+    <Position X="10.5" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAQAAAAAAAAgEAABAAAAAAAAAAAAAAAAgAIAAAAA=</HashCode>
-      <FileName>ProdutoRepository.cs</FileName>
+      <HashCode>AAACAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Categoria.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="VendedorRepository">
-    <Position X="10.75" Y="3.5" Width="1.75" />
+  <Class Name="Pim_8.Produto">
+    <Position X="7.75" Y="5" Width="1.5" />
+    <AssociationLine Name="Vendedores" Type="Pim_8.Vendedor">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-2.013" Y="1.204" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Itens" Type="Pim_8.ItemCarrinho">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.089" Y="0.998" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAQAAAAAAAAgEAABAAAAAAAAAAAAAAAAgAIAAAAA=</HashCode>
-      <FileName>VendedorRepository.cs</FileName>
+      <HashCode>AAACAAAEAAABEAAgAAAAAAAAAAAAABBAAAAEAAAAAAA=</HashCode>
+      <FileName>Produto.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <ShowAsAssociation>
+      <Property Name="Categoria" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Vendedores" />
+      <Property Name="Itens" />
+    </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="Cliente">
+  <Class Name="Pim_8.Carrinho">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAEIAAAACAAAAAAAAAAAAQAAQAAAAAAAA=</HashCode>
+      <FileName>Carrinho.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="StatusCarrinho" />
+      <Property Name="Cliente" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Itens" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Pim_8.Cliente">
     <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAACAAAAAAAAAAAACAACAAAAAAAAAABAEAAAA=</HashCode>
-      <FileName>ClassesBasicas.cs</FileName>
+      <HashCode>AAACAAAAACAAAAAAAAAAAACAACAAAAAAAAAABAEAEAA=</HashCode>
+      <FileName>Cliente.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Endereco" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Carrinhos" />
+    </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="Carrinho">
-    <Position X="3.25" Y="0.5" Width="1.5" />
+  <Class Name="Pim_8.StatusCarrinho">
+    <Position X="4" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACACAABAAAAIAAABCAAAAAAAAAAAAQAAQAAAAAAAA=</HashCode>
-      <FileName>ClassesBasicas.cs</FileName>
+      <HashCode>AAACAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>StatusCarrinho.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Produto">
-    <Position X="6" Y="2" Width="1.5" />
+  <Class Name="Pim_8.ItemCarrinho">
+    <Position X="7.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAEAAABAAAAAAAAAAAAAAAAABAAAAAEAAAAAAA=</HashCode>
-      <FileName>ClassesBasicas.cs</FileName>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAQBAAAAAE=</HashCode>
+      <FileName>ItemCarrinho.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Carrinho" />
+    </ShowAsAssociation>
   </Class>
-  <Class Name="Vendedor">
-    <Position X="3.25" Y="3.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAADAAAAACAAAAAAAAEAAAAAECAIAAAAAAAAEAAAEAA=</HashCode>
-      <FileName>ClassesBasicas.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Interface Name="IRepository&lt;T&gt;">
-    <Position X="8.75" Y="0.5" Width="1.5" />
+  <Interface Name="Pim_8.IRepository&lt;T&gt;">
+    <Position X="10" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAQAAAAAAAAAEAABAAAAAAAAAAAAAAAAgAIAAAAA=</HashCode>
       <FileName>IRepository.cs</FileName>

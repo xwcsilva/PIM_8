@@ -1,137 +1,142 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
-public class CarrinhoRepository : IRepository<Carrinho>
+namespace Pim_8
 {
-    private string connectionString;
+    using System;
+    using System.Collections.Generic;
+    using System.Data.SqlClient;
+  
 
-    public CarrinhoRepository(string connectionString)
+    public class CarrinhoRepository : IRepository<Carrinho>
     {
-        this.connectionString = connectionString;
-    }
+        private readonly string connectionString;
 
-    public void Adicionar(Carrinho carrinho)
-    {
-        using var connection = new SqlConnection(connectionString);
-        connection.Open();
-
-        string query = "INSERT INTO carrinho (cliente_id, status_carrinho_id, data_pedido, valor_total) " +
-                       "VALUES (@ClienteId, @StatusCarrinhoId, @DataPedido, @ValorTotal)";
-
-        using (SqlCommand command = new SqlCommand(query, connection))
+        public CarrinhoRepository(string connectionString)
         {
-            command.Parameters.AddWithValue("@ClienteId", carrinho.ClienteId);
-            command.Parameters.AddWithValue("@StatusCarrinhoId", carrinho.StatusCarrinhoId);
-            command.Parameters.AddWithValue("@DataPedido", carrinho.DataPedido);
-            command.Parameters.AddWithValue("@ValorTotal", carrinho.ValorTotal);
-
-            command.ExecuteNonQuery();
+            this.connectionString = connectionString;
         }
-    }
 
-    public void Atualizar(Carrinho carrinho)
-    {
-        using (var connection = new SqlConnection(connectionString))
+        public void Adicionar(Carrinho entidade)
         {
-            connection.Open();
-
-            string query = "UPDATE carrinho SET cliente_id = @ClienteId, " +
-                           "status_carrinho_id = @StatusCarrinhoId, data_pedido = @DataPedido, " +
-                           "valor_total = @ValorTotal " +
-                           "WHERE Id = @Id";
-
-            using (var command = new SqlCommand(query, connection))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                command.Parameters.AddWithValue("@Id", carrinho.Id);
-                command.Parameters.AddWithValue("@ClienteId", carrinho.ClienteId);
-                command.Parameters.AddWithValue("@StatusCarrinhoId", carrinho.StatusCarrinhoId);
-                command.Parameters.AddWithValue("@DataPedido", carrinho.DataPedido);
-                command.Parameters.AddWithValue("@ValorTotal", carrinho.ValorTotal);
+                connection.Open();
 
-                command.ExecuteNonQuery();
-            }
-        }
-    }
+                string query = "INSERT INTO Carrinho (id, cliente_id, status_carrinho_id, data_pedido, valor_total) VALUES (SELECT SCOPE_IDENTITY(), @ClienteId, @StatusCarrinhoId, @DataPedido, @ValorTotal);";
 
-    public void Excluir(Carrinho carrinho)
-    {
-        using (var connection = new SqlConnection(connectionString))
-        {
-            connection.Open();
-
-            string query = "DELETE FROM carrinho WHERE Id = @Id";
-
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@Id", carrinho.Id);
-
-                command.ExecuteNonQuery();
-            }
-        }
-    }
-
-    public Carrinho ObterPorId(int id)
-    {
-        using (var connection = new SqlConnection(connectionString))
-        {
-            connection.Open();
-
-            string query = "SELECT * FROM carrinho WHERE Id = @Id";
-
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@Id", id);
-
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    if (reader.Read())
+                    command.Parameters.AddWithValue("@ClienteId", entidade.Cliente.Id);
+                    command.Parameters.AddWithValue("@StatusCarrinhoId", entidade.StatusCarrinho.Id);
+                    command.Parameters.AddWithValue("@DataPedido", entidade.DataPedido);
+                    command.Parameters.AddWithValue("@ValorTotal", entidade.ValorTotal);
+                }
+            }
+        }
+
+        public void Atualizar(Carrinho entidade)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = "UPDATE Carrinho SET cliente_id = @ClienteId, status_carrinho_id = @StatusCarrinhoId, data_pedido = @DataPedido, valor_total = @ValorTotal WHERE Id = @CarrinhoId;";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ClienteId", entidade.Cliente.Id);
+                    command.Parameters.AddWithValue("@StatusCarrinhoId", entidade.StatusCarrinho.Id);
+                    command.Parameters.AddWithValue("@DataPedido", entidade.DataPedido);
+                    command.Parameters.AddWithValue("@ValorTotal", entidade.ValorTotal);
+                    command.Parameters.AddWithValue("@CarrinhoId", entidade.Id);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void Excluir(Carrinho entidade)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = "DELETE FROM Carrinho WHERE Id = @CarrinhoId;";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@CarrinhoId", entidade.Id);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public Carrinho ObterPorId(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = "SELECT * FROM Carrinho WHERE Id = @CarrinhoId;";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@CarrinhoId", id);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        return new Carrinho
+                        if (reader.Read())
                         {
-                            Id = Convert.ToInt32(reader["Id"]),
-                            ClienteId = Convert.ToInt32(reader["cliente_id"]),
-                            StatusCarrinhoId = Convert.ToInt32(reader["status_carrinho_id"]),
-                            DataPedido = Convert.ToDateTime(reader["data_pedido"]),
-                            ValorTotal = Convert.ToDecimal(reader["valor_total"]),
-                        };
+                            return MapToCarrinho(reader);
+                        }
+                    }
+                }
+
+                return null;
+            }
+        }
+
+        public List<Carrinho> ObterTodos()
+        {
+            List<Carrinho> carrinhos = new List<Carrinho>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = "SELECT * FROM Carrinho;";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Carrinho carrinho = MapToCarrinho(reader);
+                            carrinhos.Add(carrinho);
+                        }
                     }
                 }
             }
 
-            return null;
+            return carrinhos;
         }
-    }
 
-    public List<Carrinho> ObterTodos()
-    {
-        List<Carrinho> carrinhos = new List<Carrinho>();
-
-        using (var connection = new SqlConnection(connectionString))
+        private Carrinho MapToCarrinho(SqlDataReader reader)
         {
-            connection.Open();
-
-            string query = "SELECT * FROM carrinho";
-
-            using (var command = new SqlCommand(query, connection))
+            return new Carrinho
             {
-                using SqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    Carrinho carrinho = new Carrinho
-                    {
-                        Id = Convert.ToInt32(reader["Id"]),
-                        ClienteId = Convert.ToInt32(reader["cliente_id"]),
-                        StatusCarrinhoId = Convert.ToInt32(reader["status_carrinho_id"]),
-                        DataPedido = Convert.ToDateTime(reader["data_pedido"]),
-                        ValorTotal = Convert.ToDecimal(reader["valor_total"]),
-                    };
-
-                    carrinhos.Add(carrinho);
-                }
-            }
+                Id = (int)reader["Id"],
+                //ClienteRepository. = ClienteRepository. (int)reader["ClienteId"],
+                //StatusCarrinhoId = (int)reader["StatusCarrinhoId"],
+                DataPedido = (DateTime)(reader["DataPedido"] == DBNull.Value ? null : (DateTime?)reader["DataPedido"]),
+                ValorTotal = (decimal)(reader["ValorTotal"] != DBNull.Value ? (decimal?)reader["ValorTotal"] : null)
+                // Mapeie outras propriedades conforme necessário
+            };
         }
-
-        return carrinhos;
     }
+
 }

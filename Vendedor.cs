@@ -1,63 +1,22 @@
-﻿namespace Pim_8
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Pim_8
 {
     public class Vendedor
     {
-        private Endereco endereco;
+        public int Id { get; set; }
+        public string NomeFantasia { get; set; }
+        public string RazaoSocial { get; set; }
+        public string CNPJ { get; set; }
+        public string Email { get; set; }
+        public string Senha { get; set; }
+        public decimal Comissao { get; set; }
 
-        public int id
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public List<Pim_8.Produto> Produtos { get; set; }
 
-        public string razaoSocial
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public string nomeFantasia
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public string cnpj
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public string email
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public string senha
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public decimal comissao
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public Pim_8.Endereco Endereco { get; set; }
     }
 }
